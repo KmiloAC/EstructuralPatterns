@@ -1,0 +1,118 @@
+.funcion {
+    transition: transform 0.2s;
+}
+
+.funcion:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+}
+
+.ticket-web {
+    background: #f8f9fa;
+    padding: 20px;
+    border-radius: 10px;
+    box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+    margin: 20px 0;
+}
+
+.sala {
+    display: grid;
+    grid-template-columns: repeat(8, 1fr);
+    gap: 10px;
+    padding: 20px;
+    background: #f8f9fa;
+    border-radius: 10px;
+}
+
+.asiento {
+    width: 40px;
+    height: 40px;
+    background: #28a745;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: background-color 0.3s;
+}
+
+.asiento:disabled {
+    background: #dc3545;
+    cursor: not-allowed;
+}
+
+.compra-container {
+    max-width: 800px;
+    margin: 2rem auto;
+    padding: 2rem;
+    background: white;
+    border-radius: 10px;
+    box-shadow: 0 0 20px rgba(0,0,0,0.1);
+}
+
+.progress-bar {
+    display: flex;
+    justify-content: space-between;
+    margin-bottom: 2rem;
+    position: relative;
+}
+
+.progress-bar::before {
+    content: '';
+    position: absolute;
+    top: 50%;
+    left: 0;
+    right: 0;
+    height: 2px;
+    background: #e9ecef;
+    z-index: 1;
+}
+
+.step {
+    background: white;
+    padding: 0.5rem 1rem;
+    border-radius: 20px;
+    position: relative;
+    z-index: 2;
+}
+
+.step.active {
+    background: #007bff;
+    color: white;
+}
+
+.screen {
+    background: #343a40;
+    color: white;
+    text-align: center;
+    padding: 1rem;
+    margin: 2rem 0;
+    border-radius: 5px;
+}
+
+.leyenda {
+    display: flex;
+    justify-content: center;
+    gap: 2rem;
+    margin: 1rem 0;
+}
+
+.leyenda span {
+    display: inline-block;
+    width: 20px;
+    height: 20px;
+    margin-right: 5px;
+    border-radius: 3px;
+    vertical-align: middle;
+}
+
+.asiento-libre { background: #28a745; }
+.asiento-ocupado { background: #dc3545; }
+.asiento-seleccionado { background: #007bff; }
+
+.hidden {
+    display: none;
+}
+
+.payment-form {
+    max-width: 500px;
+    margin: 0 auto;
+}

@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Compra de Entradas - Cine</title>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css">
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/styles.css') }}">
+</head>
+<body>
+    <div class="compra-container">
+        <div class="progress-bar">
+            <div class="step active">1. Seleccionar Asientos</div>
+            <div class="step">2. Datos de Pago</div>
+            <div class="step">3. Confirmación</div>
+        </div>
+
+        <div class="step-content" id="step-1">
+            <h3>Selecciona tu asiento</h3>
+            <div class="screen">PANTALLA</div>
+            <div id="sala-cine" class="sala"></div>
+            <div class="leyenda">
+                <div><span class="asiento-libre"></span> Disponible</div>
+                <div><span class="asiento-ocupado"></span> Ocupado</div>
+                <div><span class="asiento-seleccionado"></span> Seleccionado</div>
+            </div>
+            <button class="btn btn-primary mt-3" onclick="siguientePaso()">Continuar</button>
+        </div>
+
+        <div class="step-content hidden" id="step-2">
+            <h3>Datos de Pago</h3>
+            <form id="payment-form" class="payment-form">
+                <div class="form-group">
+                    <label>Nombre en la tarjeta</label>
+                    <input type="text" class="form-control" required>
+                </div>
+                <div class="form-group">
+                    <label>Número de tarjeta</label>
+                    <input type="text" class="form-control" pattern="\d*" maxlength="16" required>
+                </div>
+                <div class="row">
+                    <div class="col">
+                        <label>Fecha Exp.</label>
+                        <input type="text" class="form-control" placeholder="MM/YY" required>
+                    </div>
+                    <div class="col">
+                        <label>CVV</label>
+                        <input type="text" class="form-control" pattern="\d*" maxlength="3" required>
+                    </div>
+                </div>
+                <button type="button" class="btn btn-secondary mt-3" onclick="pasoAnterior()">Atrás</button>
+                <button type="submit" class="btn btn-primary mt-3">Pagar</button>
+            </form>
+        </div>
+
+        <div class="step-content hidden" id="step-3">
+            <div class="confirmation">
+                <h3>¡Compra Exitosa! 🎉</h3>
+                <div id="ticket" class="mt-3"></div>
+                <button class="btn btn-primary" onclick="volverCartelera()">Volver a Cartelera</button>
+            </div>
+        </div>
+    </div>
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script src="{{ url_for('static', filename='js/scripts.js') }}"></script>
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            const salaId = "{{ sala_id }}";
+            inicializarSala(salaId);
+        });
+    </script>
+</body>
+</html>
