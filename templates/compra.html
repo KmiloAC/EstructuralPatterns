@@ -14,7 +14,12 @@
         </div>
 
         <div class="step-content" id="step-1">
-            <h3>Selecciona tu asiento</h3>
+            <h3>Selecciona tus asientos</h3>
+            <div class="alert alert-info">
+                <span>Asientos seleccionados: <strong id="seats-count">0</strong></span>
+                <br>
+                <span>Total: <strong id="seats-total">$0.00</strong></span>
+            </div>
             <div class="screen">PANTALLA</div>
             <div id="sala-cine" class="sala"></div>
             <div class="leyenda">
@@ -27,27 +32,51 @@
 
         <div class="step-content hidden" id="step-2">
             <h3>Datos de Pago</h3>
+            <div class="alert alert-info">
+                <strong>Datos de prueba disponibles:</strong>
+                <ul class="mb-0">
+                    <li><strong>Tarjeta válida:</strong> 4242 4242 4242 4242</li>
+                    <li><strong>Nombre:</strong> Usuario Prueba</li>
+                    <li><strong>Vencimiento:</strong> 12/25</li>
+                    <li><strong>CVV:</strong> 123</li>
+                </ul>
+            </div>
+            <h4 id="total-pagar" class="text-center mb-4">Total a pagar: $0.00</h4>
             <form id="payment-form" class="payment-form">
                 <div class="form-group">
-                    <label>Nombre en la tarjeta</label>
-                    <input type="text" class="form-control" required>
+                    <label for="paymentMethod">Método de pago</label>
+                    <select name="paymentMethod" id="paymentMethod" class="form-control" required>
+                        <option value="credit">Tarjeta de Crédito</option>
+                        <option value="debit">Tarjeta Débito</option>
+                    </select>
                 </div>
                 <div class="form-group">
-                    <label>Número de tarjeta</label>
-                    <input type="text" class="form-control" pattern="\d*" maxlength="16" required>
+                    <label for="cardName">Nombre en la tarjeta</label>
+                    <input type="text" name="cardName" id="cardName" class="form-control" required 
+                           value="Usuario Prueba" readonly>
+                </div>
+                <div class="form-group">
+                    <label for="cardNumber">Número de tarjeta</label>
+                    <input type="text" name="cardNumber" id="cardNumber" class="form-control" required 
+                           value="4242 4242 4242 4242" readonly>
                 </div>
                 <div class="row">
                     <div class="col">
-                        <label>Fecha Exp.</label>
-                        <input type="text" class="form-control" placeholder="MM/YY" required>
+                        <label for="cardExpiry">Fecha Exp.</label>
+                        <input type="text" name="cardExpiry" id="cardExpiry" class="form-control" required 
+                               value="12/25" readonly>
                     </div>
                     <div class="col">
-                        <label>CVV</label>
-                        <input type="text" class="form-control" pattern="\d*" maxlength="3" required>
+                        <label for="cardCvv">CVV</label>
+                        <input type="text" name="cardCvv" id="cardCvv" class="form-control" required 
+                               value="123" readonly>
                     </div>
                 </div>
-                <button type="button" class="btn btn-secondary mt-3" onclick="pasoAnterior()">Atrás</button>
-                <button type="submit" class="btn btn-primary mt-3">Pagar</button>
+                <div id="card-errors" class="alert alert-danger mt-3" style="display: none;"></div>
+                <div class="text-center mt-4">
+                    <button type="button" class="btn btn-secondary" onclick="pasoAnterior()">Atrás</button>
+                    <button type="submit" class="btn btn-primary" id="btn-pagar">Pagar</button>
+                </div>
             </form>
         </div>
 
