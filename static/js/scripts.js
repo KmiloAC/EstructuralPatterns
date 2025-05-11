@@ -194,11 +194,13 @@ function setupPaymentForm() {
                 const btn = document.querySelector(`[data-asiento="${asiento}"]`);
                 if (btn) {
                     btn.disabled = true;
-                    btn.classList.add('ocupado');
                     btn.classList.remove('seleccionado');
+                    btn.classList.add('ocupado');
                 }
-                occupiedSeats.add(asiento);
             });
+
+            // Actualizar conjunto de asientos ocupados
+            selectedSeats.forEach(asiento => occupiedSeats.add(asiento));
 
             // Limpiar selección
             selectedSeats = [];

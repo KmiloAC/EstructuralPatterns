@@ -90,10 +90,29 @@
     </div>
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
     <script src="{{ url_for('static', filename='js/scripts.js') }}"></script>
+    <script src="/static/js/compra.js"></script>
     <script>
         document.addEventListener('DOMContentLoaded', () => {
             const salaId = "{{ sala_id }}";
             inicializarSala(salaId);
+        });
+
+        document.getElementById('paymentForm').addEventListener('submit', async (e) => {
+            e.preventDefault();
+            const asientosSeleccionados = [...document.querySelectorAll('.asiento.seleccionado')]
+                .map(el => el.dataset.asiento);
+            const paymentData = {
+                cardNumber: document.getElementById('cardNumber').value,
+                cardExpiry: document.getElementById('cardExpiry').value,
+                cardCvv: document.getElementById('cardCvv').value
+            };
+            
+            const result = await procesarCompra(asientosSeleccionados, paymentData);
+            if (result.success) {
+                // Mostrar tickets o mensaje de éxito
+            } else {
+                // Mostrar error
+            }
         });
     </script>
 </body>

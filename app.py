@@ -63,41 +63,18 @@ def procesar_compra():
         if not asientos:
             return jsonify({"success": False, "error": "No se seleccionaron asientos"}), 400
         
-        # Verificar si algún asiento ya está ocupado
-        if any(asiento in asientos_ocupados for asiento in asientos):
-            return jsonify({
-                "success": False,
-                "error": "Algunos asientos ya no están disponibles"
-            }), 400
+        # Usar el facade para procesar toda la compra
+        success, error, tickets = facade.procesar_compra(asientos, data.get('paymentData', {}))
         
-        # Procesar el pago
-        payment_data = data.get('paymentData', {})
-        if not payment_data or payment_data.get('cardNumber') != '4242424242424242':
+        if not success:
             return jsonify({
                 "success": False,
-                "error": "Datos de pago inválidos"
+                "error": error
             }), 400
-            
-        # Marcar asientos como ocupados y generar tickets
-        tickets_html = []
-        for asiento in asientos:
-            try:
-                ticket = facade.comprar_entrada(asiento, "regular")
-                tickets_html.append(ticket)
-                asientos_ocupados.add(asiento)
-            except Exception as e:
-                logger.error(f"Error generando ticket para asiento {asiento}: {e}")
-                continue
-        
-        if not tickets_html:
-            return jsonify({
-                "success": False,
-                "error": "Error generando tickets"
-            }), 500
             
         return jsonify({
             "success": True,
-            "ticket": "".join(tickets_html)
+            "ticket": "".join(tickets)
         })
         
     except Exception as e:
