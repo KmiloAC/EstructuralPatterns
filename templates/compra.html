@@ -95,23 +95,35 @@
         document.addEventListener('DOMContentLoaded', () => {
             const salaId = "{{ sala_id }}";
             inicializarSala(salaId);
+            // Iniciar actualización automática
+            iniciarActualizacionAutomatica(salaId);
         });
 
-        document.getElementById('paymentForm').addEventListener('submit', async (e) => {
+        document.getElementById('payment-form').addEventListener('submit', async (e) => {
             e.preventDefault();
+            const salaId = "{{ sala_id }}";
             const asientosSeleccionados = [...document.querySelectorAll('.asiento.seleccionado')]
                 .map(el => el.dataset.asiento);
             const paymentData = {
-                cardNumber: document.getElementById('cardNumber').value,
+                cardNumber: document.getElementById('cardNumber').value.replace(/\s/g, ''),
                 cardExpiry: document.getElementById('cardExpiry').value,
                 cardCvv: document.getElementById('cardCvv').value
             };
             
-            const result = await procesarCompra(asientosSeleccionados, paymentData);
-            if (result.success) {
-                // Mostrar tickets o mensaje de éxito
-            } else {
-                // Mostrar error
+            try {
+                const result = await procesarCompra(asientosSeleccionados, paymentData, salaId);
+                if (result.success) {
+                    document.getElementById('ticket').innerHTML = result.tickets;
+                    siguientePaso();
+                } else {
+                    const errorDiv = document.getElementById('card-errors');
+                    errorDiv.textContent = result.error;
+                    errorDiv.style.display = 'block';
+                }
+            } catch (error) {
+                const errorDiv = document.getElementById('card-errors');
+                errorDiv.textContent = error.message;
+                errorDiv.style.display = 'block';
             }
         });
     </script>

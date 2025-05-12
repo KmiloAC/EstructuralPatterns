@@ -50,47 +50,49 @@ def sala(sala_id):
         logger.error(f"Error al renderizar sala {sala_id}: {e}")
         return "Error: No se pudo cargar la sala", 500
 
-@app.route('/comprar', methods=['POST'])
+@app.route('/procesar_compra', methods=['POST'])  # Cambiar ruta de /comprar a /procesar_compra
 def procesar_compra():
     if facade is None:
         return jsonify({"success": False, "error": "Sistema no disponible"}), 500
     try:
-        data = request.json
+        data = request.get_json()
         if not data:
             return jsonify({"success": False, "error": "Datos inválidos"}), 400
             
         asientos = data.get('asientos', [])
+        payment_data = data.get('payment_data', {})
+        
         if not asientos:
             return jsonify({"success": False, "error": "No se seleccionaron asientos"}), 400
         
-        # Usar el facade para procesar toda la compra
-        success, error, tickets = facade.procesar_compra(asientos, data.get('paymentData', {}))
+        # Procesar la compra usando el facade
+        success, error, tickets = facade.procesar_compra(asientos, payment_data)
         
         if not success:
-            return jsonify({
-                "success": False,
-                "error": error
-            }), 400
+            return jsonify({"success": False, "error": error}), 400
             
         return jsonify({
             "success": True,
-            "ticket": "".join(tickets)
+            "tickets": tickets
         })
         
     except Exception as e:
-        logger.error(f"Error processing purchase: {e}")
-        return jsonify({"success": False, "error": str(e)}), 500
+        logger.error(f"Error processing purchase: {str(e)}")
+        return jsonify({"success": False, "error": "Error en el procesamiento de la compra"}), 500
 
 @app.route('/asientos-ocupados/<sala_id>')
 def obtener_asientos_ocupados(sala_id):
     logger.info(f"Consultando asientos ocupados para sala: {sala_id}")
     try:
-        asientos = list(asientos_ocupados)
+        if facade is None:
+            return jsonify([]), 500
+        # Usar el estado de asientos del facade
+        asientos = list(facade.obtener_asientos_ocupados().keys())
         logger.info(f"Asientos ocupados en {sala_id}: {asientos}")
         return jsonify(asientos)
     except Exception as e:
         logger.error(f"Error obteniendo asientos ocupados para {sala_id}: {e}")
-        return jsonify({"error": "Error al obtener asientos ocupados"}), 500
+        return jsonify([]), 500
 
 @app.route('/static/<path:filename>')
 def static_files(filename):
