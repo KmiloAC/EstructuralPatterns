@@ -105,8 +105,12 @@ class CineFacade:
 
     def comprar_entrada(self, asiento: str, tipo_venta: str) -> str:
         """Genera un ticket individual"""
-        precio_base = 15.0  # Precio fijo por entrada
-        return self.emitir_ticket({"asiento": asiento, "precio": precio_base})
+        precio_base = 15000  # Precio de entrada en COP
+        return self.emitir_ticket({"asiento": asiento, "precio": self._format_price(precio_base)})
+
+    def _format_price(self, price: float) -> str:
+        """Formatea el precio en formato COP"""
+        return "{:,.0f}".format(price).replace(",", ".")
 
     def obtener_asientos_ocupados(self) -> dict:
         """Retorna el diccionario de estados de asientos"""

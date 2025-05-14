@@ -3,18 +3,18 @@ class CineController:
         self._menu = {
             "combo1": {
                 "nombre": "Combo Personal",
-                "precio": 15.0,
-                "items": ["Palomitas medianas", "Refresco mediano"]
+                "precio": 28000,  # Actualizado a COP
+                "items": ["Crispetas Medianas", "Gaseosa 16oz"]
             },
             "combo2": {
                 "nombre": "Combo Pareja",
-                "precio": 25.0,
-                "items": ["Palomitas grandes", "2 Refrescos medianos"]
+                "precio": 45000,  # Actualizado a COP
+                "items": ["Crispetas Grandes", "2 Gaseosas 16oz", "Chocolatina Jet"]
             },
             "combo3": {
                 "nombre": "Combo Familiar",
-                "precio": 35.0,
-                "items": ["2 Palomitas grandes", "4 Refrescos medianos"]
+                "precio": 65000,  # Actualizado a COP
+                "items": ["2 Crispetas Grandes", "4 Gaseosas 16oz", "2 Chocolatinas Jet", "Nachos con Queso"]
             }
         }
 
@@ -46,6 +46,7 @@ class CineController:
 
     def _generar_ticket_combo(self, combo: dict) -> str:
         items_html = "\n".join([f"<li>{item}</li>" for item in combo["items"]])
+        precio_formatted = "{:,.0f}".format(combo["precio"]).replace(",", ".")
         return f"""
         <div class='ticket-web'>
             <h3>🍿 Ticket Combo</h3>
@@ -53,7 +54,7 @@ class CineController:
             <ul>
                 {items_html}
             </ul>
-            <p>Total: ${combo['precio']:.2f}</p>
+            <p>Total: ${precio_formatted} COP</p>
         </div>
         """
 

@@ -60,15 +60,16 @@ function seleccionarAsiento(btn) {
     const seatsCount = document.getElementById('seats-count');
     const seatsTotal = document.getElementById('seats-total');
     if (seatsCount) seatsCount.textContent = selectedSeats.length;
-    if (seatsTotal) seatsTotal.textContent = `$${(selectedSeats.length * 15.0).toFixed(2)}`;
+    if (seatsTotal) seatsTotal.textContent = `$${(selectedSeats.length * 15000).toLocaleString('es-CO')} COP`;
 }
 
 function calcularTotal() {
-    const precioBase = 15.0; // Precio por entrada
+    const precioBase = 15000; // Precio por entrada en COP
     const total = selectedSeats.length * precioBase;
     const totalElement = document.getElementById('total-pagar');
     if (totalElement) {
-        totalElement.textContent = `Total a pagar por ${selectedSeats.length} asiento(s): $${total.toFixed(2)}`;
+        const totalFormatted = total.toLocaleString('es-CO');
+        totalElement.textContent = `Total a pagar por ${selectedSeats.length} asiento(s): $${totalFormatted} COP`;
     }
     return total;
 }
