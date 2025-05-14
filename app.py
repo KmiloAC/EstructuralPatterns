@@ -1,5 +1,6 @@
 from flask import Flask, render_template, jsonify, request, url_for
 from models.facade import CineFacade
+from controller.cine_controller import cine_controller  # Actualizar import
 import logging
 
 # Configure logging
@@ -24,7 +25,19 @@ asientos_ocupados = set()
 def index():
     if facade is None:
         return "Error: Sistema no disponible", 500
-    return render_template('index.html', cartelera_html=facade.cartelera.mostrar_html())
+    try:
+        menu_data = cine_controller.get_menu()
+        logger.info(f"Menu data: {menu_data}")
+        if not isinstance(menu_data, dict):
+            menu_data = {}
+        return render_template('index.html', 
+                            cartelera_html=facade.generar_cartelera_html(),
+                            menu=menu_data)
+    except Exception as e:
+        logger.error(f"Error loading menu: {str(e)}")
+        return render_template('index.html',
+                            cartelera_html=facade.generar_cartelera_html(),
+                            menu={})
 
 @app.route('/comprar/<asiento>')
 def comprar(asiento):
@@ -97,6 +110,24 @@ def obtener_asientos_ocupados(sala_id):
 @app.route('/static/<path:filename>')
 def static_files(filename):
     return app.send_static_file(filename)
+
+@app.route("/comprar-combo", methods=["POST"])  # Nueva ruta para combos
+def comprar_combo():
+    try:
+        combo = request.form["combo"]
+        datos_pago = {
+            "cardNumber": request.form["cardNumber"],
+            "cardExpiry": request.form["cardExpiry"],
+            "cardCvv": request.form["cardCvv"]
+        }
+        ok, resultado = cine_controller.comprar_combo(combo, datos_pago)
+        if ok:
+            return jsonify({"success": True, "ticket": resultado})
+        else:
+            return jsonify({"success": False, "error": resultado}), 400
+    except Exception as e:
+        logger.error(f"Error comprando combo: {str(e)}")
+        return jsonify({"success": False, "error": "Error procesando la compra"}), 500
 
 @app.errorhandler(404)
 def not_found_error(error):

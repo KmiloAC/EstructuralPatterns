@@ -22,6 +22,7 @@ async function inicializarSala(salaId) {
     // Cargar asientos ocupados primero
     await cargarAsientosOcupados(salaId);
 
+    // Crear solo 32 asientos
     for(let i = 1; i <= 32; i++) {
         const asientoId = `${salaId}-${i}`;
         const btn = document.createElement('button');
@@ -238,12 +239,3 @@ function updateProgressBar() {
         }
     });
 }
-document.addEventListener('DOMContentLoaded', () => {
-    const salaId = document.getElementById('sala-cine').dataset.salaId;
-    inicializarSala(salaId);
-    setupPaymentForm();
-    
-    document.getElementById('btn-siguiente').onclick = siguientePaso;
-    document.getElementById('btn-anterior').onclick = pasoAnterior;
-    document.getElementById('btn-volver').onclick = volverCartelera;
-});

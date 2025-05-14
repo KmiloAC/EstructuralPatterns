@@ -1,41 +1,43 @@
 from abc import ABC, abstractmethod
 
-# models/composite.py
-class ProgramaCartelera(ABC):
+class MenuItem(ABC):
     @abstractmethod
-    def mostrar_html(self) -> str:
+    def get_price(self) -> float:
         pass
 
-class Funcion(ProgramaCartelera):
-    def __init__(self, pelicula: str, hora: str, sala: str):
-        self.pelicula = pelicula
-        self.hora = hora
-        self.sala = sala
+    @abstractmethod
+    def get_description(self) -> str:
+        pass
 
-    def mostrar_html(self) -> str:
-        sala_id = self.sala.replace(" ", "_")
-        return f"""
-        <div class='funcion card mb-3'>
-            <div class='card-body'>
-                <h4 class='card-title'>{self.pelicula}</h4>
-                <p class='card-text'>Sala: {self.sala} | Hora: {self.hora}</p>
-                <a href='/sala/{sala_id}' class='btn btn-primary btn-comprar'>
-                    Comprar
-                </a>
-            </div>
-        </div>
-        """
+class IndividualItem(MenuItem):
+    def __init__(self, name: str, price: float):
+        self.name = name
+        self.price = price
 
-class DiaCartelera(ProgramaCartelera):
-    def __init__(self, fecha: str):
-        self.fecha = fecha
-        self.items = []
+    def get_price(self) -> float:
+        return self.price
 
-    def agregar(self, item: ProgramaCartelera):
+    def get_description(self) -> str:
+        return self.name
+
+class FoodCombo(MenuItem):
+    def __init__(self, name: str, base_price_adjustment: float = 0.0):
+        self.name = name
+        self.base_price_adjustment = base_price_adjustment
+        self.items: list[MenuItem] = []
+
+    def add_item(self, item: MenuItem):
         self.items.append(item)
 
-    def mostrar_html(self) -> str:
-        html = f"<h3>🎬 Cartelera - {self.fecha}</h3>"
+    def get_price(self) -> float:
+        total_price = self.base_price_adjustment
         for item in self.items:
-            html += item.mostrar_html()
-        return html
+            total_price += item.get_price()
+        return total_price
+
+    def get_description(self) -> str:
+        if not self.items:
+            return f"{self.name} (vacío)"
+        components = [item.get_description() for item in self.items]
+        adjustment_str = f" (ajuste: ${self.base_price_adjustment:.2f})" if self.base_price_adjustment != 0 else ""
+        return f"{self.name}{adjustment_str} [Contiene: {', '.join(components)}]"

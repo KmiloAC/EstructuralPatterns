@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Menú - Cine</title>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css">
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/styles.css') }}">
+</head>
+<body>
+    <div class="container my-4">
+        <h2 class="text-center mb-4">🍿 Menú y Combos</h2>
+        <div class="row">
+            {% for id, combo in menu.items() %}
+            <div class="col-md-4 mb-4">
+                <div class="card">
+                    <div class="card-body">
+                        <h5 class="card-title">{{ combo.nombre }}</h5>
+                        <ul class="list-unstyled">
+                            {% for item in combo.items %}
+                            <li>✓ {{ item }}</li>
+                            {% endfor %}
+                        </ul>
+                        <p class="card-text"><strong>Precio: ${{ "%.2f"|format(combo.precio) }}</strong></p>
+                        <button class="btn btn-primary btn-block comprar-combo" 
+                                data-combo="{{ id }}"
+                                data-precio="{{ combo.precio }}">
+                            Comprar Combo
+                        </button>
+                    </div>
+                </div>
+            </div>
+            {% endfor %}
+        </div>
+    </div>
+
+    <!-- Modal de Pago -->
+    <div class="modal fade" id="pagoModal" tabindex="-1">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title">Pagar Combo</h5>
+                    <button type="button" class="close" data-dismiss="modal">
+                        <span>&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    <form id="pago-form">
+                        <input type="hidden" id="combo-id" name="combo">
+                        <div class="form-group">
+                            <label>Número de Tarjeta</label>
+                            <input type="text" class="form-control" name="cardNumber" value="4242 4242 4242 4242" readonly>
+                        </div>
+                        <div class="form-row">
+                            <div class="col">
+                                <label>Fecha Exp.</label>
+                                <input type="text" class="form-control" name="cardExpiry" value="12/25" readonly>
+                            </div>
+                            <div class="col">
+                                <label>CVV</label>
+                                <input type="text" class="form-control" name="cardCvv" value="123" readonly>
+                            </div>
+                        </div>
+                        <div class="alert alert-danger mt-3" id="error-mensaje" style="display: none;"></div>
+                    </form>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancelar</button>
+                    <button type="button" class="btn btn-primary" id="btn-pagar">Pagar</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"></script>
+    <script src="{{ url_for('static', filename='js/menu.js') }}"></script>
+</body>
+</html>

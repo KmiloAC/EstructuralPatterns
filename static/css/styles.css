@@ -22,6 +22,8 @@
     padding: 20px;
     background: #f8f9fa;
     border-radius: 10px;
+    max-width: 800px;
+    margin: 0 auto;
 }
 
 .asiento {
@@ -143,4 +145,24 @@
     border-radius: 5px;
     margin-bottom: 1rem;
     text-align: center;
+}
+
+/* Estilos para las tarjetas de combos */
+.combo-card {
+    transition: transform 0.2s;
+    height: 100%;
+}
+
+.combo-card:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+}
+
+.nav-tabs .nav-link {
+    font-size: 1.1rem;
+    padding: 1rem 2rem;
+}
+
+.nav-tabs .nav-link.active {
+    font-weight: bold;
 }
