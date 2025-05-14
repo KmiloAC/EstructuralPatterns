@@ -4,23 +4,32 @@
 <head>
     <title>Cine Colombia</title>
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
     <link rel="stylesheet" href="{{ url_for('static', filename='css/styles.css') }}">
     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 </head>
 <body>
+    <!-- Hero Section -->
+    <div class="hero">
+        <div class="hero-content">
+            <h1>Bienvenido a Cine Colombia</h1>
+            <p class="lead">Vive la magia del cine con la mejor experiencia</p>
+        </div>
+    </div>
+
     <div class="container">
         <h1 class="my-4 text-center">🎬 Cine Colombia</h1>
         
         <!-- Navegación con pestañas -->
-        <ul class="nav nav-tabs mb-4" id="myTab" role="tablist">
+        <ul class="nav nav-tabs mb-5" id="myTab" role="tablist">
             <li class="nav-item">
                 <a class="nav-link active" id="cartelera-tab" data-toggle="tab" href="#cartelera" role="tab">
-                    🎬 Cartelera
+                    <i class="fas fa-film"></i> Cartelera
                 </a>
             </li>
             <li class="nav-item">
                 <a class="nav-link" id="combos-tab" data-toggle="tab" href="#combos" role="tab">
-                    🍿 Combos
+                    <i class="fas fa-popcorn"></i> Combos
                 </a>
             </li>
         </ul>

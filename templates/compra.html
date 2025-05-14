@@ -6,88 +6,103 @@
     <link rel="stylesheet" href="{{ url_for('static', filename='css/styles.css') }}">
 </head>
 <body>
-    <div class="compra-container">
-        <div class="progress-bar">
-            <div class="step active">1. Seleccionar Asientos</div>
-            <div class="step">2. Datos de Pago</div>
-            <div class="step">3. Confirmación</div>
+    <div class="container mt-5">
+        <!-- Barra de progreso de pasos -->
+        <div class="steps-progress mb-5">
+            <div class="step-item active">
+                <div class="step-number">1</div>
+                <div class="step-title">Seleccionar Asientos</div>
+            </div>
+            <div class="step-item">
+                <div class="step-number">2</div>
+                <div class="step-title">Datos de Pago</div>
+            </div>
+            <div class="step-item">
+                <div class="step-number">3</div>
+                <div class="step-title">Confirmación</div>
+            </div>
         </div>
 
+        <!-- Paso 1: Selección de Asientos -->
         <div class="step-content" id="step-1">
-            <h3>Selecciona tus asientos</h3>
+            <h2 class="text-center mb-4">Selecciona tus asientos</h2>
             <div class="alert alert-info">
-                <span>Asientos seleccionados: <strong id="seats-count">0</strong></span>
-                <br>
-                <span>Total: <strong id="seats-total">$0.00</strong></span>
+                <div class="row">
+                    <div class="col-md-6">
+                        <span>Asientos seleccionados: <strong id="seats-count">0</strong></span>
+                    </div>
+                    <div class="col-md-6 text-right">
+                        <span>Total: <strong id="seats-total">$0.00</strong></span>
+                    </div>
+                </div>
             </div>
-            <div class="screen">PANTALLA</div>
-            <div id="sala-cine" class="sala"></div>
-            <div class="leyenda">
+            
+            <div class="screen mb-4">PANTALLA</div>
+            <div id="sala-cine" class="sala mb-4"></div>
+            
+            <div class="leyenda mb-4">
                 <div><span class="asiento-libre"></span> Disponible</div>
                 <div><span class="asiento-ocupado"></span> Ocupado</div>
                 <div><span class="asiento-seleccionado"></span> Seleccionado</div>
             </div>
-            <button class="btn btn-primary mt-3" onclick="siguientePaso()">Continuar</button>
+
+            <div class="text-center">
+                <button class="btn btn-outline-secondary me-2" onclick="volverCartelera()">Cancelar</button>
+                <button class="btn btn-primary" onclick="siguientePaso()">Continuar</button>
+            </div>
         </div>
 
+        <!-- Paso 2: Datos de Pago -->
         <div class="step-content hidden" id="step-2">
-            <h3>Datos de Pago</h3>
-            <div class="alert alert-info">
-                <strong>Datos de prueba disponibles:</strong>
+            <h2 class="text-center mb-4">Datos de Pago</h2>
+            <div class="alert alert-info mb-4">
+                <h5>Datos de prueba:</h5>
                 <ul class="mb-0">
-                    <li><strong>Tarjeta válida:</strong> 4242 4242 4242 4242</li>
-                    <li><strong>Nombre:</strong> Usuario Prueba</li>
-                    <li><strong>Vencimiento:</strong> 12/25</li>
-                    <li><strong>CVV:</strong> 123</li>
+                    <li>Tarjeta: 4242 4242 4242 4242</li>
+                    <li>Fecha: 12/25</li>
+                    <li>CVV: 123</li>
                 </ul>
             </div>
-            <h4 id="total-pagar" class="text-center mb-4">Total a pagar: $0.00</h4>
+
+            <div id="total-pagar" class="alert alert-success text-center mb-4"></div>
+
             <form id="payment-form" class="payment-form">
                 <div class="form-group">
-                    <label for="paymentMethod">Método de pago</label>
-                    <select name="paymentMethod" id="paymentMethod" class="form-control" required>
-                        <option value="credit">Tarjeta de Crédito</option>
-                        <option value="debit">Tarjeta Débito</option>
-                    </select>
-                </div>
-                <div class="form-group">
-                    <label for="cardName">Nombre en la tarjeta</label>
-                    <input type="text" name="cardName" id="cardName" class="form-control" required 
-                           value="Usuario Prueba" readonly>
-                </div>
-                <div class="form-group">
-                    <label for="cardNumber">Número de tarjeta</label>
-                    <input type="text" name="cardNumber" id="cardNumber" class="form-control" required 
-                           value="4242 4242 4242 4242" readonly>
+                    <label>Número de Tarjeta</label>
+                    <input type="text" id="cardNumber" name="cardNumber" class="form-control" value="4242 4242 4242 4242" readonly>
                 </div>
                 <div class="row">
                     <div class="col">
-                        <label for="cardExpiry">Fecha Exp.</label>
-                        <input type="text" name="cardExpiry" id="cardExpiry" class="form-control" required 
-                               value="12/25" readonly>
+                        <label>Fecha Exp.</label>
+                        <input type="text" id="cardExpiry" name="cardExpiry" class="form-control" value="12/25" readonly>
                     </div>
                     <div class="col">
-                        <label for="cardCvv">CVV</label>
-                        <input type="text" name="cardCvv" id="cardCvv" class="form-control" required 
-                               value="123" readonly>
+                        <label>CVV</label>
+                        <input type="text" id="cardCvv" name="cardCvv" class="form-control" value="123" readonly>
                     </div>
                 </div>
                 <div id="card-errors" class="alert alert-danger mt-3" style="display: none;"></div>
+                
                 <div class="text-center mt-4">
-                    <button type="button" class="btn btn-secondary" onclick="pasoAnterior()">Atrás</button>
+                    <button type="button" class="btn btn-outline-secondary me-2" onclick="pasoAnterior()">Atrás</button>
                     <button type="submit" class="btn btn-primary" id="btn-pagar">Pagar</button>
                 </div>
             </form>
         </div>
 
+        <!-- Paso 3: Confirmación -->
         <div class="step-content hidden" id="step-3">
-            <div class="confirmation">
-                <h3>¡Compra Exitosa! 🎉</h3>
-                <div id="ticket" class="mt-3"></div>
-                <button class="btn btn-primary" onclick="volverCartelera()">Volver a Cartelera</button>
+            <div class="confirmation text-center">
+                <div class="success-animation mb-4">
+                    <i class="fas fa-check-circle fa-5x text-success"></i>
+                </div>
+                <h2 class="mb-4">¡Compra Exitosa!</h2>
+                <div id="ticket" class="mb-4"></div>
+                <button class="btn btn-primary btn-lg" onclick="volverCartelera()">Volver a Cartelera</button>
             </div>
         </div>
     </div>
+
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
     <script src="{{ url_for('static', filename='js/scripts.js') }}"></script>
     <script src="/static/js/compra.js"></script>
@@ -97,33 +112,38 @@
             inicializarSala(salaId);
             // Iniciar actualización automática
             iniciarActualizacionAutomatica(salaId);
-        });
 
-        document.getElementById('payment-form').addEventListener('submit', async (e) => {
-            e.preventDefault();
-            const salaId = "{{ sala_id }}";
-            const asientosSeleccionados = [...document.querySelectorAll('.asiento.seleccionado')]
-                .map(el => el.dataset.asiento);
-            const paymentData = {
-                cardNumber: document.getElementById('cardNumber').value.replace(/\s/g, ''),
-                cardExpiry: document.getElementById('cardExpiry').value,
-                cardCvv: document.getElementById('cardCvv').value
-            };
-            
-            try {
-                const result = await procesarCompra(asientosSeleccionados, paymentData, salaId);
-                if (result.success) {
-                    document.getElementById('ticket').innerHTML = result.tickets;
-                    siguientePaso();
-                } else {
-                    const errorDiv = document.getElementById('card-errors');
-                    errorDiv.textContent = result.error;
-                    errorDiv.style.display = 'block';
-                }
-            } catch (error) {
-                const errorDiv = document.getElementById('card-errors');
-                errorDiv.textContent = error.message;
-                errorDiv.style.display = 'block';
+            // Manejar el envío del formulario de pago
+            const paymentForm = document.getElementById('payment-form');
+            if (paymentForm) {
+                paymentForm.addEventListener('submit', async (e) => {
+                    e.preventDefault();
+                    const asientosSeleccionados = [...document.querySelectorAll('.asiento.seleccionado')]
+                        .map(el => el.dataset.asiento);
+
+                    try {
+                        const paymentData = {
+                            cardNumber: document.getElementById('cardNumber').value.replace(/\s/g, ''),
+                            cardExpiry: document.getElementById('cardExpiry').value,
+                            cardCvv: document.getElementById('cardCvv').value
+                        };
+
+                        const result = await procesarCompra(asientosSeleccionados, paymentData, salaId);
+                        if (result.success) {
+                            document.getElementById('ticket').innerHTML = result.tickets;
+                            siguientePaso();
+                        } else {
+                            const errorDiv = document.getElementById('card-errors');
+                            errorDiv.textContent = result.error;
+                            errorDiv.style.display = 'block';
+                        }
+                    } catch (error) {
+                        console.error('Error:', error);
+                        const errorDiv = document.getElementById('card-errors');
+                        errorDiv.textContent = error.message || 'Error procesando el pago';
+                        errorDiv.style.display = 'block';
+                    }
+                });
             }
         });
     </script>

@@ -1,168 +1,456 @@
-.funcion {
-    transition: transform 0.2s;
+@import url('https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;700&family=Poppins:wght@300;400;500;600&display=swap');
+
+:root {
+    --color-primary: #8B7355;    /* Café principal */
+    --color-secondary: #D2B48C;  /* Café claro */
+    --color-accent: #DEB887;     /* Café beige */
+    --color-light: #F5DEB3;      /* Beige claro */
+    --color-dark: #5C4033;       /* Café oscuro */
+    --color-background: #FFF8DC; /* Crema */
+    --color-text: #3E2723;       /* Café texto */
+    --shadow-soft: 0 4px 6px rgba(139, 115, 85, 0.1);
+    --shadow-medium: 0 6px 12px rgba(139, 115, 85, 0.15);
+    --shadow-large: 0 15px 35px rgba(139, 115, 85, 0.2);
 }
 
-.funcion:hover {
+body {
+    font-family: 'Poppins', sans-serif;
+    background-color: var(--color-background);
+    color: var(--color-text);
+}
+
+h1, h2, h3, h4, h5 {
+    font-family: 'Playfair Display', serif;
+}
+
+.container {
+    background-color: #fff;
+    border-radius: 15px;
+    box-shadow: var(--shadow-soft);
+    padding: 2rem;
+    margin-top: 2rem;
+    margin-bottom: 2rem;
+}
+
+/* Hero Section */
+.hero {
+    position: relative;
+    height: 60vh;
+    background-image: linear-gradient(rgba(0,0,0,0.5), rgba(0,0,0,0.5)), url('/static/img/hero.jpg');
+    background-size: cover;
+    background-position: center;
+    color: white;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin-bottom: 3rem;
+}
+
+.hero-content {
+    text-align: center;
+    max-width: 800px;
+    padding: 2rem;
+}
+
+.hero h1 {
+    font-size: 3.5rem;
+    margin-bottom: 1rem;
+    text-shadow: 2px 2px 4px rgba(0,0,0,0.5);
+}
+
+/* Navegación */
+.navbar {
+    background: rgba(255, 255, 255, 0.95);
+    backdrop-filter: blur(10px);
+    box-shadow: var(--shadow-medium);
+}
+
+.nav-tabs {
+    border: none;
+    margin-bottom: 2rem;
+    justify-content: center;
+}
+
+.nav-tabs .nav-link {
+    border: none;
+    font-size: 1.1rem;
+    padding: 1rem 2rem;
+    margin: 0 0.5rem;
+    border-radius: 50px;
+    transition: all 0.3s ease;
+    color: var(--color-dark);
+}
+
+.nav-tabs .nav-link.active {
+    background-color: var(--color-primary);
+    color: white;
+    transform: translateY(-2px);
+}
+
+/* Tarjetas de funciones y combos */
+.funcion, .combo-card {
+    background-color: #fff;
+    border: none;
+    border-radius: 12px;
+    box-shadow: var(--shadow-soft);
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.combo-card {
+    overflow: hidden;
+    border-radius: 15px;
+    transition: all 0.3s ease;
+}
+
+.combo-card:hover {
+    transform: translateY(-10px);
+    box-shadow: var(--shadow-large);
+}
+
+.combo-card .card-img-top {
+    height: 200px;
+    object-fit: cover;
+    transition: transform 0.3s ease;
+}
+
+.combo-card:hover .card-img-top {
+    transform: scale(1.05);
+}
+
+.combo-card .card-body {
+    padding: 2rem;
+}
+
+.combo-card .card-title {
+    font-family: 'Playfair Display', serif;
+    color: var(--color-dark);
+    font-size: 1.5rem;
+    margin-bottom: 1rem;
+}
+
+.price-tag {
+    position: absolute;
+    top: 1rem;
+    right: 1rem;
+    background: var(--color-primary);
+    color: white;
+    padding: 0.5rem 1rem;
+    border-radius: 50px;
+    font-weight: 600;
+}
+
+.funcion:hover, .combo-card:hover {
     transform: translateY(-5px);
-    box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+    box-shadow: 0 8px 15px rgba(139, 115, 85, 0.2);
 }
 
+.card-title {
+    color: var(--color-dark);
+    font-weight: 600;
+}
+
+/* Botones */
+.btn-primary {
+    background: var(--color-primary);
+    border: none;
+    padding: 0.8rem 2rem;
+    border-radius: 50px;
+    font-weight: 500;
+    transition: all 0.3s ease;
+}
+
+.btn-primary:hover {
+    background: var(--color-dark);
+    transform: translateY(-2px);
+    box-shadow: var(--shadow-medium);
+}
+
+/* Tickets */
 .ticket-web {
-    background: #f8f9fa;
-    padding: 20px;
-    border-radius: 10px;
-    box-shadow: 0 2px 5px rgba(0,0,0,0.1);
-    margin: 20px 0;
+    background: white;
+    border-radius: 20px;
+    padding: 2rem;
+    box-shadow: var(--shadow-medium);
+    border-left: 5px solid var(--color-primary);
+    margin: 2rem 0;
+    position: relative;
+    overflow: hidden;
 }
 
+.ticket-web::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    height: 5px;
+    background: linear-gradient(90deg, var(--color-primary), var(--color-accent));
+}
+
+.ticket-web h3 {
+    color: var(--color-dark);
+    margin-bottom: 1rem;
+}
+
+/* Sala de Cine y Asientos */
 .sala {
+    background: #2c3e50;  /* Fondo oscuro para simular sala de cine */
+    border-radius: 15px;
+    padding: 3rem;
+    gap: 8px;
+    max-width: 900px;
+    margin: 0 auto;
     display: grid;
     grid-template-columns: repeat(8, 1fr);
-    gap: 10px;
-    padding: 20px;
-    background: #f8f9fa;
-    border-radius: 10px;
-    max-width: 800px;
-    margin: 0 auto;
+    box-shadow: inset 0 0 50px rgba(0,0,0,0.5);
+}
+
+.screen {
+    grid-column: 1 / -1;  /* Ocupa todo el ancho */
+    background: #ecf0f1;
+    color: #2c3e50;
+    padding: 1rem;
+    margin: -2rem -2rem 2rem -2rem;
+    text-align: center;
+    border-radius: 100px;
+    font-weight: bold;
+    box-shadow: 0 5px 15px rgba(0,0,0,0.2);
+    font-size: 1.2rem;
+    transform: perspective(500px) rotateX(-10deg);
 }
 
 .asiento {
     width: 40px;
     height: 40px;
-    background: #28a745;
+    margin: 4px;
+    background: #27ae60;  /* Verde para asientos disponibles */
     border: none;
-    border-radius: 5px;
+    border-radius: 8px 8px 0 0;  /* Forma de silla */
     cursor: pointer;
-    transition: background-color 0.3s;
+    transition: all 0.3s ease;
+    position: relative;
+    color: white;
+    font-weight: bold;
+    box-shadow: 0 4px 0 #219a52;  /* Sombra 3D */
 }
 
-.asiento:disabled {
-    background: #dc3545;
-    cursor: not-allowed;
+.asiento::after {
+    content: '';
+    position: absolute;
+    bottom: 0;
+    left: 10%;
+    right: 10%;
+    height: 4px;
+    background: rgba(0,0,0,0.1);
+    border-radius: 0 0 4px 4px;
+}
+
+.asiento:not(:disabled):hover {
+    transform: translateY(-2px);
+    box-shadow: 0 6px 0 #219a52;
+}
+
+.asiento:active {
+    transform: translateY(2px);
+    box-shadow: 0 2px 0 #219a52;
 }
 
 .asiento.seleccionado {
-    background: #007bff;
-    color: white;
-    transform: scale(1.1);
-    box-shadow: 0 2px 4px rgba(0,0,0,0.2);
+    background: #3498db;  /* Azul para asientos seleccionados */
+    box-shadow: 0 4px 0 #2980b9;
 }
 
 .asiento.ocupado {
-    background: #dc3545;
+    background: #e74c3c;  /* Rojo para asientos ocupados */
     cursor: not-allowed;
-    opacity: 0.7;
-    transform: none;
-    box-shadow: none;
+    opacity: 0.8;
+    box-shadow: 0 4px 0 #c0392b;
 }
 
-.asiento.ocupado:hover {
-    transform: none;
-    box-shadow: none;
-}
-
-.compra-container {
-    max-width: 800px;
-    margin: 2rem auto;
-    padding: 2rem;
-    background: white;
-    border-radius: 10px;
-    box-shadow: 0 0 20px rgba(0,0,0,0.1);
-}
-
-.progress-bar {
-    display: flex;
-    justify-content: space-between;
-    margin-bottom: 2rem;
-    position: relative;
-}
-
-.progress-bar::before {
-    content: '';
-    position: absolute;
-    top: 50%;
-    left: 0;
-    right: 0;
-    height: 2px;
-    background: #e9ecef;
-    z-index: 1;
-}
-
-.step {
-    background: white;
-    padding: 0.5rem 1rem;
-    border-radius: 20px;
-    position: relative;
-    z-index: 2;
-}
-
-.step.active {
-    background: #007bff;
-    color: white;
-}
-
-.screen {
-    background: #343a40;
-    color: white;
-    text-align: center;
-    padding: 1rem;
-    margin: 2rem 0;
-    border-radius: 5px;
-}
-
+/* Leyenda de asientos */
 .leyenda {
+    margin-top: 2rem;
+    background: white;
+    padding: 1.5rem;
+    border-radius: 10px;
     display: flex;
     justify-content: center;
-    gap: 2rem;
-    margin: 1rem 0;
+    gap: 3rem;
+    box-shadow: var(--shadow-soft);
+}
+
+.leyenda div {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    font-weight: 500;
 }
 
 .leyenda span {
+    width: 30px;
+    height: 30px;
+    border-radius: 6px 6px 0 0;
     display: inline-block;
-    width: 20px;
-    height: 20px;
-    margin-right: 5px;
-    border-radius: 3px;
-    vertical-align: middle;
 }
 
-.asiento-libre { background: #28a745; }
-.asiento-ocupado { background: #dc3545; }
-.asiento-seleccionado { background: #007bff; }
-
-.hidden {
-    display: none;
+.asiento-libre { 
+    background: #27ae60; 
+    box-shadow: 0 3px 0 #219a52;
 }
 
-.payment-form {
-    max-width: 500px;
-    margin: 0 auto;
+.asiento-ocupado { 
+    background: #e74c3c; 
+    box-shadow: 0 3px 0 #c0392b;
 }
 
-.seats-info {
-    background: #f8f9fa;
+.asiento-seleccionado { 
+    background: #3498db; 
+    box-shadow: 0 3px 0 #2980b9;
+}
+
+/* Modal */
+.modal-content {
+    border-radius: 20px;
+    border: none;
+    box-shadow: var(--shadow-large);
+}
+
+.modal-header {
+    background: var(--color-light);
+    border: none;
+    padding: 2rem;
+    border-radius: 20px 20px 0 0;
+}
+
+.modal-body {
+    padding: 2rem;
+}
+
+.modal-footer {
+    border-top: none;
+    padding: 1.5rem;
+}
+
+/* Formularios */
+.form-control {
+    border: 2px solid var(--color-secondary);
+    border-radius: 8px;
+    padding: 0.8rem;
+    transition: border-color 0.3s ease;
+}
+
+.form-control:focus {
+    border-color: var(--color-primary);
+    box-shadow: 0 0 0 0.2rem rgba(139, 115, 85, 0.25);
+}
+
+/* Alertas y mensajes */
+.alert {
+    border: none;
+    border-radius: 10px;
+    padding: 1rem 1.5rem;
+}
+
+.alert-info {
+    background-color: var(--color-light);
+    color: var(--color-dark);
+    border-left: 5px solid var(--color-primary);
+}
+
+/* Pantalla del cine */
+.screen {
+    background: var(--color-dark);
+    color: var(--color-light);
+    border-radius: 50px 50px 0 0;
     padding: 1rem;
-    border-radius: 5px;
-    margin-bottom: 1rem;
+    margin: 2rem 0;
     text-align: center;
+    box-shadow: 0 -5px 15px rgba(0,0,0,0.1);
 }
 
-/* Estilos para las tarjetas de combos */
-.combo-card {
-    transition: transform 0.2s;
-    height: 100%;
+/* Leyenda de asientos */
+.leyenda {
+    background-color: rgba(255,255,255,0.8);
+    padding: 1rem;
+    border-radius: 10px;
+    display: flex;
+    justify-content: center;
+    gap: 2rem;
 }
 
-.combo-card:hover {
-    transform: translateY(-5px);
-    box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+.leyenda span {
+    width: 24px;
+    height: 24px;
+    border-radius: 6px;
 }
 
-.nav-tabs .nav-link {
-    font-size: 1.1rem;
-    padding: 1rem 2rem;
+/* Estilos para los pasos de compra */
+.steps-progress {
+    display: flex;
+    justify-content: space-between;
+    position: relative;
+    max-width: 800px;
+    margin: 0 auto 3rem;
 }
 
-.nav-tabs .nav-link.active {
+.steps-progress::before {
+    content: '';
+    position: absolute;
+    top: 20px;
+    left: 0;
+    right: 0;
+    height: 2px;
+    background: var(--color-light);
+    z-index: 1;
+}
+
+.step-item {
+    position: relative;
+    z-index: 2;
+    text-align: center;
+    flex: 1;
+}
+
+.step-number {
+    width: 40px;
+    height: 40px;
+    background: var(--color-light);
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin: 0 auto 0.5rem;
+    color: var(--color-dark);
     font-weight: bold;
+    transition: all 0.3s ease;
+}
+
+.step-item.active .step-number {
+    background: var(--color-primary);
+    color: white;
+    box-shadow: 0 0 0 5px rgba(139, 115, 85, 0.2);
+}
+
+.step-title {
+    color: var(--color-dark);
+    font-size: 0.9rem;
+    font-weight: 500;
+}
+
+.step-item.active .step-title {
+    color: var(--color-primary);
+    font-weight: 600;
+}
+
+.step-content {
+    max-width: 800px;
+    margin: 0 auto;
+    padding: 2rem;
+    background: white;
+    border-radius: 15px;
+    box-shadow: var(--shadow-soft);
+}
+
+.step-content.hidden {
+    display: none;
 }

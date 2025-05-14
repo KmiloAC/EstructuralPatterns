@@ -1,6 +1,14 @@
 // Función para procesar la compra
 async function procesarCompra(asientos, paymentData, sala) {
     try {
+        if (!asientos || asientos.length === 0) {
+            throw new Error('Por favor seleccione al menos un asiento');
+        }
+
+        if (!paymentData || !paymentData.cardNumber) {
+            throw new Error('Datos de pago incompletos');
+        }
+
         const response = await fetch('/procesar_compra', {
             method: 'POST',
             headers: {
@@ -13,27 +21,22 @@ async function procesarCompra(asientos, paymentData, sala) {
             })
         });
 
-        if (!response.ok) {
-            const errorData = await response.json();
-            throw new Error(errorData.error || 'Error en la comunicación con el servidor');
-        }
-
         const data = await response.json();
         
-        if (data.success) {
-            // Marcar asientos como ocupados visualmente
-            asientos.forEach(asiento => {
-                marcarAsientoComoOcupado(asiento);
-            });
-            // Actualizar el estado global
-            actualizarEstadoAsientos(sala);
-            return { success: true, tickets: data.tickets };
-        } else {
+        if (!data.success) {
             throw new Error(data.error || 'Error procesando la compra');
         }
+
+        return { 
+            success: true, 
+            tickets: data.tickets 
+        };
     } catch (error) {
         console.error('Error al procesar la compra:', error);
-        return { success: false, error: error.message };
+        return { 
+            success: false, 
+            error: error.message || 'Error procesando la compra' 
+        };
     }
 }
 
