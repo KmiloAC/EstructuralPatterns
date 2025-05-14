@@ -114,13 +114,17 @@ def static_files(filename):
 @app.route("/comprar-combo", methods=["POST"])  # Nueva ruta para combos
 def comprar_combo():
     try:
-        combo = request.form["combo"]
-        datos_pago = {
-            "cardNumber": request.form["cardNumber"],
-            "cardExpiry": request.form["cardExpiry"],
-            "cardCvv": request.form["cardCvv"]
-        }
-        ok, resultado = cine_controller.comprar_combo(combo, datos_pago)
+        data = request.get_json()
+        if not data:
+            return jsonify({"success": False, "error": "Datos inválidos"}), 400
+
+        combo = data.get('combo')
+        payment_data = data.get('payment_data', {})
+
+        if not combo or not payment_data:
+            return jsonify({"success": False, "error": "Datos incompletos"}), 400
+
+        ok, resultado = cine_controller.comprar_combo(combo, payment_data)
         if ok:
             return jsonify({"success": True, "ticket": resultado})
         else:

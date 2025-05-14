@@ -12,31 +12,54 @@ document.addEventListener('DOMContentLoaded', () => {
     document.getElementById('btn-pagar').addEventListener('click', async () => {
         const form = document.getElementById('pago-form');
         const formData = new FormData(form);
+        const btnPagar = document.getElementById('btn-pagar');
+        const errorDiv = document.getElementById('error-mensaje');
         
         try {
+            btnPagar.disabled = true;
+            btnPagar.textContent = 'Procesando...';
+            errorDiv.style.display = 'none';
+
+            // Crear objeto de datos de pago en el formato correcto
+            const paymentData = {
+                cardNumber: formData.get('cardNumber').replace(/\s/g, ''),
+                cardExpiry: formData.get('cardExpiry'),
+                cardCvv: formData.get('cardCvv')
+            };
+
             const response = await fetch('/comprar-combo', {
                 method: 'POST',
-                body: formData
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify({
+                    combo: formData.get('combo'),
+                    payment_data: paymentData
+                })
             });
             
             const data = await response.json();
             
             if (data.success) {
                 $('#pagoModal').modal('hide');
-                // Mostrar ticket
                 Swal.fire({
                     title: '¡Compra Exitosa!',
                     html: data.ticket,
                     icon: 'success'
+                }).then(() => {
+                    window.location.reload(); // Recargar página después de compra exitosa
                 });
             } else {
-                document.getElementById('error-mensaje').textContent = data.error;
-                document.getElementById('error-mensaje').style.display = 'block';
+                errorDiv.textContent = data.error || 'Error procesando la compra';
+                errorDiv.style.display = 'block';
             }
         } catch (error) {
             console.error('Error:', error);
-            document.getElementById('error-mensaje').textContent = 'Error procesando la compra';
-            document.getElementById('error-mensaje').style.display = 'block';
+            errorDiv.textContent = 'Error procesando la compra';
+            errorDiv.style.display = 'block';
+        } finally {
+            btnPagar.disabled = false;
+            btnPagar.textContent = 'Pagar';
         }
     });
 });
