@@ -1,3 +1,8 @@
+/**
+ * Script para el manejo del menú de combos.
+ * Controla la apertura del modal de pago y el envío de datos de combo mediante fetch.
+ */
+
 document.addEventListener('DOMContentLoaded', () => {
     // Setup para botones de compra
     document.querySelectorAll('.comprar-combo').forEach(btn => {

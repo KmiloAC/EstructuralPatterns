@@ -1,3 +1,8 @@
+/**
+ * Script para procesar la compra de entradas.
+ * Envía datos de asientos y pago al endpoint '/procesar_compra' y actualiza la interfaz.
+ */
+
 // Función para procesar la compra
 async function procesarCompra(asientos, paymentData, sala) {
     try {

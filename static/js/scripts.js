@@ -1,3 +1,8 @@
+/**
+ * Script principal para la sala de cine.
+ * Gestiona la carga de asientos, selección, actualización del total a pagar y navegación entre pasos.
+ */
+
 let currentStep = 1;
 let selectedSeats = [];
 let occupiedSeats = new Set();

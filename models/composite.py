@@ -1,3 +1,9 @@
+"""
+Módulo composite:
+Implementa el patrón Composite para manejar ítems individuales y combos de alimentos.
+Cada clase provee métodos para obtener precio y descripción.
+"""
+
 from abc import ABC, abstractmethod
 
 class MenuItem(ABC):

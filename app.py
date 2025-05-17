@@ -1,3 +1,19 @@
+"""
+Aplicación Flask para gestionar la compra de entradas y combos en CinemaEstructurales.
+
+Funcionalidades principales:
+- Inicialización del objeto Flask y configuración de las plantillas.
+- Configuración del logging y uso de un Facade (CineFacade) para la lógica del negocio.
+- Endpoints:
+    • '/' : Renderiza la página principal con la cartelera y menú de opciones.
+    • '/comprar/<asiento>' : Procesa la compra de una entrada regular.
+    • '/sala/<sala_id>' : Muestra la vista de compra para una sala específica.
+    • '/procesar_compra' : Procesa la compra de entradas, validando datos y emitiendo tickets.
+    • '/asientos-ocupados/<sala_id>' : Consulta los asientos ocupados de una sala.
+    • '/comprar-combo' : Procesa la compra de combos.
+    • Rutas para archivos estáticos y manejo de errores (404 y 500).
+"""
+
 from flask import Flask, render_template, jsonify, request, url_for
 from models.facade import CineFacade
 from controller.cine_controller import cine_controller  # Actualizar import

@@ -1,3 +1,9 @@
+"""
+Módulo bridge:
+Implementa el patrón Bridge para separar la abstracción de la emisión de tickets (ventas)
+de la implementación de canales de venta.
+"""
+
 from abc import ABC, abstractmethod
 
 class CanalVenta(ABC):
@@ -32,4 +38,7 @@ class VentaAbstract:
         self.canal = canal
 
     def realizar_venta(self, datos: dict) -> str:
+        """
+        Realiza la venta delegando la emisión del ticket al canal.
+        """
         return self.canal.emitir_ticket(datos)
